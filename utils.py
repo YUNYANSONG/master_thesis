@@ -2,7 +2,7 @@ import torch
 from torch.distributions.normal import Normal
 from torch.nn import Linear
 from torch.nn import ReLU
-
+import numpy as np
 
 def european_option_delta(log_moneyness, time_expiry, volatility) -> torch.Tensor:
     """
@@ -220,3 +220,74 @@ def to_premium(pnl) -> torch.Tensor:
     tensor(True)
     """
     return -torch.log(entropic_loss(pnl))
+
+def generate_heston_brownian_motion(n_paths=1000,maturity = 30 / 365, dt = 1/365, alpha = 0.2, sigma = 0.1,b= 0.05, V_0=0.04, corr = 0.2):
+    # the Heston model written as dV = alpha (b- V(t)) dt + sigma sqrt(V(t)) dW_1(t)
+    #                             dS/S = sqrt(V(t))dW_2(t)
+    #                             corr(W1,W2)=corr
+    #
+    # The method we used is from the book Monte Carlo Methods in Finance, Glasserman 2003, Page 121 - 125
+    # The default parameters lead to d = 4
+    # The number of the trajectories usually is much larger than 1000, the default value is for test. 
+    d = 4* b* alpha / sigma**2
+    import math
+    
+    if d<=1:
+        c = sigma**2 *(1-math.exp(-alpha*dt))/(4*alpha)
+        lambda_const = math.exp(-alpha*dt)/c
+        space1 = np.random.RandomState()
+        randn_1 = space1.normal(size = (int(maturity/dt),n_paths))
+        
+        V = np.zeros(shape = (int(maturity/dt).n_paths))
+        V[0,:]=V_0
+        randn_1[0,:]=0
+
+        for date_step in range(0,int(maturity/dt)-1):
+            lambda_ = lambda_const * V[date_step]
+            N = np.random.possion(lambda_/2,size=(1,n_paths))
+            X = np.random.chisquare(df=N)
+            V[date_step+1] = c*X
+            
+        brownian_process = randn_1*np.sqrt(V)*np.sqrt(dt)
+        bp = brownian_process.cumsum(axis=0)
+        bp = torch.from_numpy(bp)
+        integral_t = (-0.5*V*dt)
+        integral_t[0,:]=0
+        integral_t=integral_t.cumsum(axis=0)
+        integral_t = torch.from_numpy(integral_t)
+        V = torch.from_numpy(V)
+            
+    else:
+        c = sigma**2 *(1-math.exp(-alpha*dt))/(4*alpha)
+        lambda_const = math.exp(-alpha*dt)/c
+        space1 = np.random.RandomState()
+        space2 = np.random.RandomState()
+        space3 = np.random.RandomState()
+        randn_1 = space1.normal(size = (int(maturity/dt),n_paths))
+        randn_2 = space2.normal(size =(int(maturity/dt),n_paths)) * (1-corr**2)**0.5 + corr*randn_1
+        chi_square = space3.chisquare(df=d-1,size=(int(maturity/dt),n_paths))
+        V = np.zeros(shape = (int(maturity/dt),n_paths))
+        V[0,:]=V_0
+        randn_1[0,:]=0
+        randn_2[0,:]=0
+        for date_step in range(1,int(maturity/dt)):
+            V[date_step] = c*((randn_2[date_step]+np.sqrt(lambda_const*V[date_step-1]))**2+chi_square[date_step-1])
+        brownian_process = randn_1*np.sqrt(V)*np.sqrt(dt)
+        bp = brownian_process.cumsum(axis=0)
+        bp = torch.from_numpy(bp)
+        integral_t = (-0.5*V*dt)
+        integral_t[0,:]=0
+        integral_t=integral_t.cumsum(axis=0)
+        integral_t = torch.from_numpy(integral_t)
+        V = torch.from_numpy(V)
+
+    
+    dS2_1 = V*dt
+    S2_1 = np.cumsum(dS2_1,axis=0)
+    t = np.full(shape=(int(maturity/dt),n_paths),fill_value=dt)
+    t = np.cumsum(t,axis=0)
+    t = torch.from_numpy(t)
+    L_t_v = (V-b)/alpha*(1-np.exp(-alpha*(maturity-t)))+b*(maturity-t)
+    S2 = S2_1+L_t_v
+        
+    return (torch.exp(integral_t+bp).to(torch.float32),S2.to(torch.float32))
