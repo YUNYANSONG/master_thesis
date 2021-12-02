@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f958da9b-5609-4fe4-80ac-b5d7370c68e0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_11132021.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/main_11132021.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rNN_no_transaction_band.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/rNN_no_transaction_band.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +114,7 @@
       <workItem from="1637344004819" duration="3156000" />
       <workItem from="1637657317731" duration="3699000" />
       <workItem from="1637936669598" duration="3559000" />
+      <workItem from="1638173202617" duration="20663000" />
     </task>
     <task id="LOCAL-00001" summary="add my personal files">
       <created>1636664580679</created>
@@ -122,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636664580679</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add my personal files">
+      <created>1638173302334</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1638173302334</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
