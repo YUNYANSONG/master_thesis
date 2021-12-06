@@ -117,6 +117,8 @@
       <workItem from="1638173202617" duration="20663000" />
       <workItem from="1638520606090" duration="2204000" />
       <workItem from="1638522839357" duration="1268000" />
+      <workItem from="1638524130325" duration="4330000" />
+      <workItem from="1638632835336" duration="4761000" />
     </task>
     <task id="LOCAL-00001" summary="add my personal files">
       <created>1636664580679</created>
@@ -132,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638173302334</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="find a nsb network">
+      <created>1638524149458</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1638524149458</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,7 +149,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add my personal files" />
-    <option name="LAST_COMMIT_MESSAGE" value="add my personal files" />
+    <MESSAGE value="find a nsb network" />
+    <option name="LAST_COMMIT_MESSAGE" value="find a nsb network" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NoTransactionBandNetwork$interview_MW.coverage" NAME="interview_MW Coverage Results" MODIFIED="1636885241603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
